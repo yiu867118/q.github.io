@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Familiarity Questionnaire</title>
+    <style>
+   
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #68a1dd;
+            padding: 10px;
+            text-align: center;
+            color: white;
+        }
+
+        header p {
+            font-size: 16px; /* Adjust the font size to your preference */
+        }
+
+        #quiz-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #question-container {
+        margin-top: 20px;
+        font-size: 20px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            margin-top: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            margin: 5px;
+        }
+
+        /* Add this style to adjust the font size of the options */
+        .options label {
+            font-size: 16px; /* Adjust the option font size to your preference */
+        }
+
+
+        #progress-bar {
+            width: 100%;
+            background-color: #f1f1f1;
+            height: 20px;
+            position: relative;
+        }
+
+        #progress {
+            height: 100%;
+            background-color: #6facde;
+            width: 0;
+            position: absolute;
+        }
+
+
+
+        button {
+            background-color: #3f99e2;
+            color: #fff;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        #result-table {
+            margin: 20px auto;
+        }
+    
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 id="title">Word Familiarity Questionnaire</h1>
+        <p id="instructions"><strong>It will present different words below. Your task is to rate your familiarity with each word on a 5-point scale by selecting the corresponding button.</strong></p>
+        <div id="language-buttons">
+            <button onclick="setLanguage('english')">English</button>
+            <button onclick="setLanguage('korean')">한국어</button>
+            <button onclick="setLanguage('chinese')">中文</button>
+        </div>
+    </header>
+
+    <div id="quiz-container">
+        <div id="progress-bar">
+            <div id="progress"></div>
+        </div>
+
+        <div id="question-container">
+            <script>
+                // Initialize variables
+                 let wordList = ['word1', 'word2', 'word3', 'word4', 'word5', 'word6', 'word7', 'word8'];
+                let currentQuestionIndex = 0;
+                let answerDurations = [];
+
+                // Update progress bar
+                function updateProgressBar() {
+                    const progress = (currentQuestionIndex + 1) / wordList.length * 100;
+                    document.getElementById('progress').style.width = `${progress}%`;
+                }
+
+
+                // Additional script for language selection
+                let currentLanguage = 'english';
+
+                function setLanguage(language) {
+                    currentLanguage = language;
+                    updateContent();
+                }
+
+                function updateContent() {
+                    const titleElement = document.getElementById('title');
+                    const instructionsElement = document.getElementById('instructions');
+
+                    switch (currentLanguage) {
+                        case 'korean':
+                            titleElement.textContent = '단어 친속도 설문조사';
+                            instructionsElement.innerHTML = '<strong>아래에 여러 영어단어가 제시될 것입니다. 해당 버튼을 선택하여 각 단어에 대한 자신의 친숙함을 5점 척도로 평가하십시오.</strong>';
+                            break;
+
+                        case 'chinese':
+                            titleElement.textContent = '单词熟悉度问卷调查';
+                            instructionsElement.innerHTML = '<strong>下方会出现不同的英文单词。你的任务是通过选择相应的按钮，用五分制来评价你对每个单词的熟悉程度。</strong>';
+                            break;
+
+                        default: // English
+                            titleElement.textContent = 'Word Familiarity Questionnaire';
+                            instructionsElement.innerHTML = '<strong>It will present different words below. Your task is to rate your familiarity with each word on a 5-point scale by selecting the corresponding button.</strong>';
+                            break;
+                    }
+
+                    // Call the function to reload the current question with the updated language
+                    loadNextQuestion();
+                }
+
+                // Load next question
+                function loadNextQuestion() {
+                    const word = wordList[currentQuestionIndex];
+                    document.getElementById('question-container').innerHTML = `
+                        <p><strong>${word}</strong></p>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" name="answer" value="1">
+                                <label>${getOptionText(1)}</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="answer" value="2">
+                                <label>${getOptionText(2)}</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="answer" value="3">
+                                <label>${getOptionText(3)}</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="answer" value="4">
+                                <label>${getOptionText(4)}</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="answer" value="5">
+                                <label>${getOptionText(5)}</label>
+                            </div>
+                        </div>
+                        <button onclick="recordAnswer()">Next</button>
+                    `;
+                }
+
+                function getOptionText(optionNumber) {
+                    switch (currentLanguage) {
+                        case 'korean':
+                            switch (optionNumber) {
+                                case 1: return '1. 이 단어를 본 적이 없거나 들어 본 적이 없다.';
+                                case 2: return '2. 가끔 이 단어를 보거나 들어 보았지만, 무슨 뜻인지 모른다.';
+                                case 3: return '3. 가끔 이 단어를 보거나 들어 보았고, 맥락에서 무슨 뜻인지 알지만, 정의를 제공할 수는 없다.';
+                                case 4: return '4. 자주 이 단어를 보거나 들어 보았고, 맥락에서 무슨 뜻인지 알지만, 정의를 제공할 수는 없다.';
+                                case 5: return '5. 자주 이 단어를 보거나 들어 보았고, 무슨 뜻인지 알며, 그 정의를 제공할 수 있다.';
+                            }
+                            break;
+
+                        case 'chinese':
+                            switch (optionNumber) {
+                                case 1: return '1. 我从未见过或听说过这个词。';
+                                case 2: return '2. 我偶尔会看到或听说这个词，但我不知道它的含义。';
+                                case 3: return '3. 我偶尔会看到或听说这个词，并且我知道它在上下文中的含义，但我不能为它提供定义。';
+                                case 4: return '4. 我经常看到或听说这个词，并且我知道它在上下文中的含义，但我不能为它提供定义。';
+                                case 5: return '5. 我经常看到或听说这个词，我知道它的含义，并且我可以为它提供定义。';
+                            }
+                            break;
+
+                        default: // English
+                            switch (optionNumber) {
+                                case 1: return '1. I have never seen/heard this word.';
+                                case 2: return '2. I have occasionally seen/heard this word, but I don\'t know what it means.';
+                                case 3: return '3. I have occasionally seen/heard this word and I know what it means in context, but I could not provide a definition for it.';
+                                case 4: return '4. I have frequently seen/heard this word and I know what it means in context, but I could not provide a definition for it.';
+                                case 5: return '5. I have frequently seen/heard this word, I know what it means, and I can provide a definition for it.';
+                            }
+                            break;
+                    }
+                }
+
+                // Record answer and move to the next question
+                function recordAnswer() {
+                    const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+                    if (selectedAnswer) {
+                        answerDurations.push({
+                            question: currentQuestionIndex + 1,
+                            word: wordList[currentQuestionIndex],
+                            answer: selectedAnswer.value
+                        });
+
+                        currentQuestionIndex++;
+                        if (currentQuestionIndex === wordList.length) {
+                            showResults();
+                        } else {
+                            updateProgressBar();
+                            loadNextQuestion();
+                        }
+                    } else {
+                        alert('Please select an answer.');
+                    }
+                }
+
+        
+
+            // Show results
+            function showResults() {
+                let resultHTML = `
+                    <div style="border:2px solid black; padding: 20px; margin: 10px;">
+                        <h2>${getResultTitle()}</h2>
+                        <p style='text-align:left;'>${getResultInstructions()}</p>
+                        <table style="width:100%; border-collapse: collapse;">`;
+
+                // Loop through answer durations and create a table
+                for (let i = 0; i < answerDurations.length; i++) {
+                    resultHTML += `<tr style="border: 1px solid black; padding: 10px;">
+                        <td style="padding: 10px;">Question ${answerDurations[i].question}</td>
+                        <td style="padding: 10px;">${answerDurations[i].word}</td>
+                        <td style="padding: 10px;">${answerDurations[i].answer}</td>
+                    </tr>`;
+                }
+
+                resultHTML += "</table></div>";
+
+                // Replace the content of quiz-container with the results table
+                document.getElementById('quiz-container').innerHTML = resultHTML;
+            }
+
+            function getResultTitle() {
+                switch (currentLanguage) {
+                    case 'korean':
+                        return '결과';
+                    case 'chinese':
+                        return '结果';
+                    default: // English
+                        return 'Results';
+                }
+            }
+
+            function getResultInstructions() {
+                switch (currentLanguage) {
+                    case 'korean':
+                        return '이 페이지를 닫기 전에, 결과의 스크린샷을 먼저 찍어 저장해 주세요. 나중에 이것을 구글 설문지에 업로드해야 합니다. 만약 모든 결과가 한 장의 사진에 다 나타나지 않는다면, 여러 장의 사진을 따로따로 찍어 저장할 수 있습니다. 협조해 주셔서 감사합니다.';
+                    case 'chinese':
+                        return '在您关闭此页面之前，请先将结果截图并保存，稍后需要上传到谷歌问卷中。如果所有的结果无法在一张图片中完全展示，您可以分别截取多张图片。感谢您的配合与理解。';
+                    default: // English
+                        return ' Before you close this page, please first take a screenshot of the results and save it, as you will need to upload it to the Google questionnaire later. If all the results cannot be fully displayed in one image, you can take and save multiple screenshots separately. Thank you for your cooperation and understanding.';
+                }
+            }
+
+
+                // Initialize the page
+                window.onload = function () {
+                    updateProgressBar();
+                    updateContent();
+                };
+            </script>
+        </div>
+    </div>
+
+</body>
+
+
+
+</html>
+

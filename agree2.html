@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Participant Consent Form</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        button {
+            background-color: #3498db; 
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 1.0em;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #53b4f6;
+        }
+
+
+        .image-container {
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border: 2px solid #d6eaf7; /* Match the button color */
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+        }
+
+        #agreeButton {
+            display: none;
+            background-color: #3498db;
+            text-align: center;
+            margin: 0 auto;
+            padding: 12px 22px;
+        }
+
+        #agreeButton:hover {
+            background-color: #53b4f6;
+        }
+
+        #disagreeButton {
+            display: none;
+            background-color: #e74c3c;
+            text-align: center;
+            margin: 0 auto;
+            padding: 12px 22px;
+        }
+
+        #disagreeButton:hover {
+            background-color: #f3867e;
+        }
+
+        #dateDisplay {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #333; /* Adjust color to your preference */
+            font-weight: bold;
+            text-shadow: 1px 1px 1px #ccc; /* Add a subtle text shadow */
+            letter-spacing: 1px; /* Add letter spacing for better readability */
+        }
+
+        #alertMessage {
+            display: none;
+            background-color: #f8d7da; /* Light red background color */
+            color: #721c24; /* Dark red text color */
+            font-size: 16px;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            text-align: left;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+        }
+
+
+        p {
+            color: #333;
+            font-size: 1em;
+            line-height: 1.5;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0 0 1em 0;
+            padding: 0;
+            text-align: center;
+        }
+
+    </style>
+</head>
+
+<body>
+    <h2>Participant Consent Form</h2>
+
+   
+    
+    
+    <div class="image-container" id="imageContainer"></div>
+    
+    <div id="dateDisplay"></div>
+    
+    <br>
+    <button id="agreeButton" onclick="window.location.href='start.html'">I agree</button>
+    <button id="disagreeButton" onclick="showAlert()">I disagree</button>
+
+    
+    <br><br>
+    <div id="alertMessage"></div>
+
+    <!-- English -->
+    <div id="englishText" style="display:none;">
+        <p>Researcher in Charge: Yihui Lu</p>
+        <p>E-mail) iestrella@cau.ac.kr </p>
+        <p>Co-researcher: Jae-young Song</p>
+        <p>E-mail) songjy@cau.ac.kr</p>
+        <p>Chung-Ang University Bioethics Committee</p>
+        <p>TEL)02-820-6346, E-mail) ethics@cau.ac.kr</p>
+    </div>
+
+    <!-- Korean -->
+    <div id="koreanText" style="display:none;">
+        <p>책임연구자: 루이후이</p>
+        <p>E-mail) iestrella@cau.ac.kr </p>
+        <p>공동연구자: 송재영</p>
+        <p>E-mail) songjy@cau.ac.kr</p>
+        <p>중앙대학교 생명윤리 위원회</p>
+        <p>TEL)02-820-6346, E-mail) ethics@cau.ac.kr</p>
+    </div>
+
+    <!-- Chinese -->
+    <div id="chineseText" style="display:none;">
+        <p>负责研究者：卢一慧</p>
+        <p>邮箱) iestrella@cau.ac.kr </p>
+        <p>共同研究者：송재영</p>
+        <p>邮箱) songjy@cau.ac.kr</p>
+        <p>中央大学生命伦理委员会</p>
+        <p>TEL)02-820-6346, E-mail) ethics@cau.ac.kr</p>
+    </div>
+
+    <script>
+
+        window.onload = function() {
+        var chosenLanguage = localStorage.getItem('chosenLanguage');
+        showImageAndButton(chosenLanguage);
+    }
+
+        function showImageAndButton(language) {
+            var img = document.createElement("img");
+            img.src = "jpg/" + language + "3.jpg"; 
+            var container = document.getElementById("imageContainer");
+            container.innerHTML = "";
+            container.appendChild(img);
+    
+            var textContainer = document.getElementById(language + "Text");
+            textContainer.style.display = "block";
+    
+            var otherTextContainers = document.querySelectorAll('[id$="Text"]:not(#' + language + 'Text)');
+            otherTextContainers.forEach(function(container) {
+                container.style.display = "none";
+            });
+    
+            var agreeButton = document.getElementById("agreeButton");
+            var disagreeButton = document.getElementById("disagreeButton");
+            var alertMessage = document.getElementById("alertMessage");
+            if (language === 'english') {
+                agreeButton.innerHTML = "I agree";
+                disagreeButton.innerHTML = "I disagree";
+                alertMessage.innerHTML = "You need to agree to enter the test.";
+            } else if (language === 'korean') {
+                agreeButton.innerHTML = "동의합니다";
+                disagreeButton.innerHTML = "동의하지 않습니다";
+                alertMessage.innerHTML = "테스트에 참여하려면 동의가 필요합니다.";
+            } else if (language === 'chinese') {
+                agreeButton.innerHTML = "我同意";
+                disagreeButton.innerHTML = "我不同意";
+                alertMessage.innerHTML = "需要您同意才能进入测试。";
+            }
+            
+            agreeButton.style.display = "inline-block";
+            disagreeButton.style.display = "inline-block";
+            alertMessage.style.display = "none";
+            
+            var dateDisplay = document.getElementById("dateDisplay");
+            var currentDate = new Date().toLocaleDateString();
+            dateDisplay.innerHTML = "Date: " + currentDate;
+        }
+    
+        function showAlert() {
+            var alertMessage = document.getElementById("alertMessage");
+            alertMessage.style.display = "block";
+        }
+    </script>
+    
+</body>
+
+</html>
+

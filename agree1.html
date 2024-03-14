@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Participant Information Sheet</title>
+    <style>
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            
+            text-align: center;
+        }
+
+        header {
+            background-color: #f7fafe;
+            padding: 10px;
+            text-align: center;
+            color: rgb(10, 10, 10);
+        }
+
+        header p {
+            font-size: 16px; /* Adjust the font size to your preference */
+            color: hsl(0, 0%, 5%);
+        }
+
+
+        button {
+            background-color: #3f99e2;
+            color: #fff;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .image-container {
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            border: 2px solid #d7e8f3;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        #nextPageButton {
+            background-color: #3f99e2;
+        }
+
+        #nextPageButton:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h2>Participant Information Sheet</h2>
+        <p>Please choose your language</p>
+    
+        <button onclick="chooseLanguage('english')">English</button>
+        <button onclick="chooseLanguage('korean')">한국어</button>
+        <button onclick="chooseLanguage('chinese')">中文</button>   
+    </header>
+
+    <div class="image-container" id="imageContainer"></div>
+
+    <button id="nextPageButton" onclick="window.location.href='agree2.html'">Next</button>
+
+    <script>
+        var chosenLanguage;
+
+        function chooseLanguage(language) {
+            localStorage.setItem('chosenLanguage', language);
+            showImage(language);
+        }
+
+        function showImage(language) {
+            var img = document.createElement("img");
+            img.src = "jpg/" + language + "1.jpg";
+            var container = document.getElementById("imageContainer");
+            container.innerHTML = "";
+            container.appendChild(img);
+        }
+        
+        window.onload = function() {
+            chooseLanguage('english');
+        }
+    </script>
+</body>
+
+</html>
+
