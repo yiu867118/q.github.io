@@ -258,7 +258,7 @@
 
             if (currentQuestionIndex < wordList.length) {
                 const word = wordList[currentQuestionIndex];
-                audioPlayer.src = `test2word/${word}.wav`;
+                audioPlayer.src = `test1word/${word}.wav`;
                 audioPlayer.load(); // Ensure the audio file is reloaded
 
                 audioPlayer.oncanplaythrough = function() {
@@ -270,35 +270,24 @@
             }
         };
 
-
-        // 添加预加载步骤
-        audioPlayer.preload = 'auto';
-        audioPlayer.oncanplaythrough = function() {
-            playButton.disabled = false; // 当音频加载完毕后，启用播放按钮
-        };
-
-
         function recordAnswer(answer) {
             const answerEndTime = new Date().getTime();
             const answerDuration = (answerEndTime - audioStartTime) / 1000; // 计算反应时间
             answerDurations.push({ answer, duration: answerDuration });
-            // 停止音频播放
-            audioPlayer.pause();
-            audioPlayer.currentTime = 0;
 
             // 禁用按钮
-        
             playButton.disabled = false;
 
-            currentQuestionIndex++;
-            if (currentQuestionIndex === wordList.length) {
+            if (currentQuestionIndex === wordList.length - 1) {
                 showResults();
             } else {
-                audioStartTime = 0; // 
+                currentQuestionIndex++;
                 playNextWord();
                 questionNumberDisplay.innerHTML = `<strong>Word ${currentQuestionIndex + 1}</strong>`;
             }
-        }
+        };
+
+
 
         function showResults() {
             localStorage.setItem('answerDurations', JSON.stringify(answerDurations));
@@ -324,4 +313,3 @@
     </script>
 </body>
 </html>
-
