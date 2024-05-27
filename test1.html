@@ -278,21 +278,20 @@
             const answerEndTime = new Date().getTime();
             const answerDuration = (answerEndTime - audioStartTime) / 1000; // 计算反应时间
             answerDurations.push({ answer, duration: answerDuration });
-            
 
             // 禁用按钮
-            
             playButton.disabled = false;
 
-            currentQuestionIndex++;
-            if (currentQuestionIndex === wordList.length) {
+            if (currentQuestionIndex === wordList.length - 1) {
                 showResults();
             } else {
+                currentQuestionIndex++;
                 audioStartTime = 0; // 
                 playNextWord();
                 questionNumberDisplay.innerHTML = `<strong>Word ${currentQuestionIndex + 1}</strong>`;
             }
         };
+
         
         function showResults() {
             localStorage.setItem('answerDurations', JSON.stringify(answerDurations));
@@ -317,5 +316,4 @@
     </script>
 </body>
 </html>
-
 
