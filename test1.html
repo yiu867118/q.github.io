@@ -24,7 +24,7 @@
         #test-container {
             background-color: #fff;
             background-size: 180px 180px;
-           
+            
             background-repeat: no-repeat;
             background-position: right bottom;
             margin-top: 10%;
@@ -230,7 +230,7 @@
         };
 
 
-        let wordList = Array.from({ length: 146 }, (_, i) => `Tword_${String(i + 1).padStart(3, '0')}`);
+        let wordList = Array.from({ length: 10 }, (_, i) => `Tword_${String(i + 1).padStart(3, '0')}`);
         shuffleArray(wordList); // 洗牌单词列表
 
         // 洗牌数组的函数
@@ -248,22 +248,24 @@
 
         
         function playNextWord() {
-            // 停止音频播放
-
+            // Stop audio playback
             audioPlayer.pause();
             audioPlayer.currentTime = 0;
 
             if (currentQuestionIndex < wordList.length) {
                 const word = wordList[currentQuestionIndex];
                 audioPlayer.src = `test2word/${word}.wav`;
-                audioPlayer.load(); // 确保重新加载音频文件
+                audioPlayer.load(); // Ensure the audio file is reloaded
+
                 audioPlayer.oncanplaythrough = function() {
-                    playButton.disabled = false; // 当音频加载完毕后，启用播放按钮
-                    audioPlayer.oncanplaythrough = null; // 移除事件监听器，避免重复触发
+                    playButton.disabled = false; // Enable the play button when the audio is loaded
+                    audioStartTime = new Date().getTime(); // Update the start time right before the audio starts playing
+                    audioPlayer.oncanplaythrough = null; // Remove the event listener to avoid triggering it multiple times
                 };
                 updateProgressBar();
             }
         };
+
 
         // 添加预加载步骤
         audioPlayer.preload = 'auto';
