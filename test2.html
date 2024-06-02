@@ -163,7 +163,7 @@
 <body>
 
     <div id="container">
-        <header>
+        <header id="header">
             <br>
             <h1 id="pagetitle">Word Recognition Test 2</h1>
             <br>
@@ -294,6 +294,27 @@
             localStorage.setItem('wordList', JSON.stringify(wordList));
             window.location.href = 'result2.html';
         }
+
+
+        window.onblur = function() {
+            document.getElementById('test-container').style.backgroundColor = 'lightgrey';
+            document.getElementById('header').style.backgroundColor = 'lightgrey !important';
+            const chosenLanguage = localStorage.getItem('chosenLanguage');
+            if (chosenLanguage === 'korean') {
+                document.body.style.backgroundColor = 'lightgrey';
+                alert("테스트 진행 중에는 테스트 창을 떠나지 마십시오. 만약 떠나면 보상을 받기 어려울 수 있습니다.");
+            } else if (chosenLanguage === 'chinese') {
+                document.body.style.backgroundColor = 'lightgrey';
+                alert("在测试过程中，请不要离开测试窗口。否则，您可能很难获得经济补偿。");
+            } else if (chosenLanguage === 'english') {
+                document.body.style.backgroundColor = 'lightgrey';
+                alert("During the test, please do not leave the test window. If you do, it will be difficult to receive compensation.")
+            }
+        };
+
+        window.onfocus = function() {
+            document.body.style.backgroundColor = 'white';
+        };
 
         
 
