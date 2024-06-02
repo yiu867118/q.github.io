@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Recognition Test 2</title>
+    <title>Word Recognition Test 1</title>
     <style>
         body {
             font-family:   'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif,  serif;
@@ -31,7 +31,6 @@
             margin-bottom: 10%;
             margin-left: 10%;
             margin-right: 10%;
-            background-color:#fff;;
             border-radius: 15px;
             box-shadow: 0 0 5px rgba(82, 81, 81, 0.1),
                         0 0 25px rgba(0, 0, 0, 0.1);
@@ -53,13 +52,10 @@
             margin-top: 20px;
         }
 
-        #audio-player {
+        #audio-player,  #question-container{
             margin-top: 20px;
         }
 
-        #question-container {
-            margin-top: 20px;
-        }
 
         #progress-bar {
             width: 100%;
@@ -165,7 +161,7 @@
     <div id="container">
         <header id="header">
             <br>
-            <h1 id="pagetitle">Word Recognition Test 2</h1>
+            <h1 id="pagetitle">Word Recognition Test 1</h1>
             <br>
         </header>
 
@@ -179,7 +175,7 @@
                 <br>
                 <div id="audio-player">
                     <audio id="audio">
-                        <source src="" type="audio/mpeg">
+                        <source src="" type="audio/wav">
                     </audio>
                     <div id="msg"></div>
                     <span id="questionNumber"><strong>Word 1</strong></span>
@@ -221,10 +217,11 @@
             audioStartTime = new Date().getTime(); // 记录音频开始时间
             yesButton.disabled = false; // 启用 Yes 按钮
             noButton.disabled = false; // 启用 No 按钮
-        }
+        };
 
         audioPlayer.onended = function() {
             
+           
 
             // 停止音频播放并清除音频源
             audioPlayer.pause();
@@ -233,8 +230,7 @@
         };
 
 
-
-        let wordList = Array.from({ length: 146}, (_, i) => `word_${String(i + 1).padStart(3, '0')}`);
+        let wordList = Array.from({ length: 146 }, (_, i) => `Tword_${String(i + 1).padStart(3, '0')}`);
         shuffleArray(wordList); // 洗牌单词列表
 
         // 洗牌数组的函数
@@ -243,12 +239,12 @@
                 const j = Math.floor(Math.random() * (i + 1));
                 [array[i], array[j]] = [array[j], array[i]];
             }
-        }
+        };
 
         function updateProgressBar() {
             const progress = (currentQuestionIndex + 1) / wordList.length * 100;
             document.getElementById('progress').style.width = `${progress}%`;
-        }
+        };
 
         
         function playNextWord() {
@@ -258,7 +254,7 @@
 
             if (currentQuestionIndex < wordList.length) {
                 const word = wordList[currentQuestionIndex];
-                audioPlayer.src = `test1word/${word}.wav`;
+                audioPlayer.src = `test2word/${word}.wav`;
                 audioPlayer.load(); // Ensure the audio file is reloaded
 
                 audioPlayer.oncanplaythrough = function() {
@@ -288,17 +284,17 @@
         };
 
 
-
+        
         function showResults() {
             localStorage.setItem('answerDurations', JSON.stringify(answerDurations));
             localStorage.setItem('wordList', JSON.stringify(wordList));
-            window.location.href = 'result2.html';
+            window.location.href = 'result1.html';
         }
 
 
         window.onblur = function() {
             document.getElementById('test-container').style.backgroundColor = 'lightgrey';
-            document.getElementById('header').style.backgroundColor = 'lightgrey !important';
+            document.getElementById('header').style.backgroundColor = 'lightgrey';
             const chosenLanguage = localStorage.getItem('chosenLanguage');
             if (chosenLanguage === 'korean') {
                 document.body.style.backgroundColor = 'lightgrey';
@@ -316,7 +312,8 @@
             document.body.style.backgroundColor = 'white';
         };
 
-        
+
+
 
         window.onload = function () {
             shuffleArray(wordList); // 洗牌单词列表
@@ -324,13 +321,14 @@
 
             const chosenLanguage = localStorage.getItem('chosenLanguage');
             if (chosenLanguage === 'korean') {
-                document.getElementById('pagetitle').innerText = '단어 인식 테스트 2';
+                document.getElementById('pagetitle').innerText = '단어 인식 테스트 1';
                 document.getElementById('questionText').innerText = " 이 단어가 영어에 실제로 존재하는 단어인 것으로 생각하십니까?";
             } else if (chosenLanguage === 'chinese') {
-                document.getElementById('pagetitle').innerText = '词汇识别测试 2';
+                document.getElementById('pagetitle').innerText = '词汇识别测试 1';
                 document.getElementById('questionText').innerText = "你认为这个单词是英语中真实存在的单词吗?";
             }
         };
     </script>
 </body>
 </html>
+
