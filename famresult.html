@@ -89,7 +89,7 @@
             
         }
 
-        #yourButton{
+        #yourButton, #yourButton2{
             display: block;
             margin: 0 auto;
             width: auto; /* 设置按钮的宽度为自适应 */
@@ -160,6 +160,8 @@
             </div>
             <div style='text-align:center; margin-top:20px;'>
                 <button id="yourButton"></button>
+                <br>
+                <button id="yourButton2" style="display:none;"></button> <!-- 新增的按钮 -->
             </div>
             <br>
             <br>
@@ -194,14 +196,21 @@
                 <br>
                     <span style='color: #535353; text-shadow: 2px 2px 4px rgb(241, 254, 127);'>**重要提示**</span> 请您在关闭此页面之前，请先下载测试结果。您需要在 <span style='color: #535353; text-shadow: 2px 2px 4px rgb(241, 254, 127);'> 谷歌问卷 </span>上传您的测试结果。
                 `;
-                buttonText = '进入 谷歌调查问卷';
+                buttonText = '海外居住者 请进入谷歌调查问卷';
                 downloadMessage = '进入谷歌调查问卷之前，您必须先下载测试结果。';
+                buttonText2 = '国内居住者 请进入本地调查问卷'; // 新增的按钮文本
+                downloadMessage2 = '进入调查问卷之前, 您必须先下载测试结果'; // 新增的下载消息
             }
 
             document.getElementById('pagetitle').innerText = pageTitle;
             document.getElementById('resultsTitle').innerText = resultsTitle;
             document.getElementById('resultsDescription').innerHTML = resultsDescription;
             document.getElementById('yourButton').innerText = buttonText;
+
+            if (chosenLanguage === 'chinese') {
+                document.getElementById('yourButton2').style.display = 'block'; // 显示第二个按钮
+                document.getElementById('yourButton2').innerText = buttonText2; // 设置第二个按钮的文本
+            }
 
             let resultsDownloaded = false;
 
@@ -236,6 +245,14 @@
                     }(chosenLanguage);
                 } else {
                     alert(downloadMessage);
+                }
+            });
+
+            document.getElementById('yourButton2').addEventListener('click', function() {
+                if (resultsDownloaded) {
+                    window.location.href = 'ch_question.html'; // 第二个按钮的链接
+                } else {
+                    alert(downloadMessage2); // 第二个按钮的下载消息
                 }
             });
         });
