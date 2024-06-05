@@ -7,7 +7,7 @@
     <title>Informed Consent for Research Participation</title>
     <style>
         body {
-            font-family:   'STXihei', 'Heiti SC', 'Heiti TC', 'Microsoft JhengHei', sans-serif;
+            font-family: 'STXihei', 'Heiti SC', 'Heiti TC', 'Microsoft JhengHei', sans-serif;
             justify-content: center;
             align-items: center;
             background-color: #f0f6fc;
@@ -23,7 +23,14 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             padding: 1px;
+            transition: height 0.5s ease;
         }
+
+
+        .animate {
+            height: auto;
+        }
+
 
         .title {
             background: linear-gradient(to right, #73c2f6, hsl(202, 68%, 38%));
@@ -42,7 +49,6 @@
         .language-selector {
             text-align: center;
             margin-bottom: 20px;
-            
             border-radius: 5px;
             padding: 20px;
         }
@@ -61,8 +67,6 @@
             margin-left: 10px;
         }
 
-        
-
         .image-container {
             width: 80%;
             max-width: 600px;
@@ -80,34 +84,33 @@
         }
 
         .image-container:hover {
-            transform: scale(1.02); /* 将图片稍微放大 */
-            transition: transform 0.3s ease; /* 添加平滑过渡效果 */
-            cursor: pointer; /* 鼠标样式变为手型 */
+            transform: scale(1.02);
+            transition: transform 0.3s ease;
+            cursor: pointer;
         }
 
         button {
             background: linear-gradient(to right, #73c2f6, #5badd9);
             display: block;
             margin: 0 auto;
-            display: block;
-            margin: 0 auto;
-            width: auto; /* 设置按钮的宽度为自适应 */
-            padding: 0 20px; /* 添加内边距，使按钮更宽 */
-            height: 50px; /* 按钮的高度 */
-            line-height: 50px; /* 设置行高与按钮高度相同，使文本垂直居中 */
-            text-align: center; /* 文本水平居中 */
-            border-radius: 30px; /* 将边框半径设置为按钮高度的一半，使按钮成为椭圆形 */
-            color: #ffffff; /* 设置按钮文本的颜色 */
-            font-size: 16px; /* 设置按钮文本的字体大小 */
-            border: none; /* 移除按钮的边框 */
-            cursor: pointer; /* 将鼠标光标设置为手型 */
-            outline: none; /* 移除按钮的外观轮廓 */
-            transition: background-color 0.3s ease; /* 添加背景颜色变化的过渡效果 */
+            width: auto;
+            padding: 0 20px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            border-radius: 30px;
+            color: #ffffff;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.3s ease;
         }
 
         button:hover {
-            background: linear-gradient(to right, #40b9ec, #71d2fb); /* Adjust gradient colors for hover effect */
+            background: linear-gradient(to right, #40b9ec, #71d2fb);
         }
+
         .button-container {
             text-align: center;
             margin-top: 20px;
@@ -118,8 +121,7 @@
 <body>
     <div class="container">
         <div class="title">Informed Consent for Research Participation</div>
-        
-        
+
         <div class="language-selector">
             <label for="languageSelect">Select Language:</label>
             <select id="languageSelect" onchange="chooseLanguage(this.value)">
@@ -128,23 +130,19 @@
                 <option value="chinese">中文</option>
             </select>
         </div>
-        
 
         <div class="intro"></div>
 
         <div class="image-container" id="imageContainer"></div>
-        
+
         <br>
         <div class="button-container">
-            <button id="nextPageButton" onclick="window.location.href='agree2.html'">Next</button>
+            <button id="nextPageButton" onclick="checkLanguageSelection()">Next</button>
         </div>
         <br><br>
-
     </div>
 
     <script>
-        
-
         var chosenLanguage;
 
         function chooseLanguage(language) {
@@ -152,6 +150,12 @@
             localStorage.setItem('chosenLanguage', language);
             changeTitle(language);
             showImage(language);
+            expandContainer(); // Call the function to expand container
+        }
+
+        function expandContainer() {
+            var container = document.querySelector(".container");
+            container.classList.add("animate"); // Add the CSS class for animation
         }
 
         function changeTitle(language) {
@@ -165,8 +169,6 @@
             }
         }
 
-        
-
         function showImage(language) {
             var img = document.createElement("img");
             img.src = "jpg/" + language + "1.jpg";
@@ -175,13 +177,18 @@
             container.appendChild(img);
         }
 
-        window.onload = function() {
-            chooseLanguage('english');
+        function checkLanguageSelection() {
+            if (!chosenLanguage) {
+                alert("Before you proceed to the next page, please select your preferred language.");
+            } else {
+                window.location.href = 'agree2.html';
+            }
         }
-    </script>
 
+        // window.onload = function() {
+        //     chooseLanguage('english');
+        // }
+    </script>
 </body>
 
 </html>
-
-
