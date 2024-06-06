@@ -39,7 +39,7 @@
         }
 
         header {
-            background: linear-gradient(to right, #73c2f6, hsl(202, 68%, 38%));/* 使用 background 属性来应用渐变背景颜色 */
+            background: linear-gradient(to right, #73c2f6, hsl(202, 68%, 38%));
             padding: 10px;
             border-radius: 15px;
             text-align: center;
@@ -56,7 +56,6 @@
             margin-top: 20px;
         }
 
-
         #progress-bar {
             width: 100%;
             background-color: #f1f1f1;
@@ -68,7 +67,7 @@
             height: 100%;
             background: linear-gradient(to right, #73c2f6, hsl(202, 68%, 38%));
             width: 0;
-            position: absolute;
+            position: absolute.
         }
 
         button {
@@ -78,20 +77,19 @@
             padding: 10px 18px;
             border-radius: 5px;
             cursor: pointer;
-            margin: 10px; /* Adjust margin for button alignment */
-            display: inline-block; /* Change display to inline-block */
+            margin: 10px;
+            display: inline-block;
             font-size: 16px;
-            transition: background-color 0.3s ease; /* Smooth transition for background color */
+            transition: background-color 0.3s ease;
         }
 
-        
         button:hover {
-            background: linear-gradient(to right, #40b9ec, #3bb1e4); /* Adjust gradient colors for hover effect */
+            background: linear-gradient(to right, #40b9ec, #3bb1e4);
         }
 
         .button-container {
-            display: flex; /* 使用 Flexbox 布局 */
-            justify-content: center; /* 在水平方向上居中对齐 */
+            display: flex;
+            justify-content: center;
             margin-top: 20px;
         }
 
@@ -102,15 +100,14 @@
             padding: 8px 18px;
             border-radius: 5px;
             cursor: pointer;
-            margin: 10px; /* Adjust margin for button alignment */
-            display: inline-block; /* Change display to inline-block */
+            margin: 10px;
+            display: inline-block;
             font-size: 16px;
-            transition: background-color 0.3s ease; /* Smooth transition for background color */
-
+            transition: background-color 0.3s ease;
         }
 
         #play:hover {
-            background: linear-gradient(to right, #3bb0f3, #62b4dd); /* Adjust gradient colors for hover effect */
+            background: linear-gradient(to right, #3bb0f3, #62b4dd);
         }
 
         #resultsBox {
@@ -122,7 +119,7 @@
         }
 
         h2, p {
-            text-align: center;
+            text-align: center.
         }
 
         #pagetitle{
@@ -131,22 +128,22 @@
         }
 
         .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            display: flex.
+            flex-direction: column.
+            align-items: center.
         }
 
         .table-container {
             column-gap: 20px;
             overflow-x: auto;
-            width: 100%; /* Ensure the table container takes full width */
+            width: 100%;
         }
 
         table {
             text-align: center;
             border-collapse: collapse;
             font-size: 12px;
-            width: 100%; /* Ensure the table takes full width */
+            width: 100%;
         }
 
         th, td {
@@ -205,35 +202,29 @@
         let playButton = document.getElementById('play');
         let audioPlayer = document.getElementById('audio');
         let audioStartTime = 0;
-        let answerDurations = []; // 存储用户答题反应时间的数组
-        let currentQuestionIndex = 0; // 当前问题的索引
+        let answerDurations = [];
+        let currentQuestionIndex = 0;
 
         playButton.addEventListener('click', control);
 
         function control() {
-            if (!audioPlayer.paused) return; // 如果音频正在播放，则不执行任何操作
+            if (!audioPlayer.paused) return;
             audioPlayer.play();
-            playButton.disabled = true; // 点击后禁用播放按钮
-            audioStartTime = new Date().getTime(); // 记录音频开始时间
-            yesButton.disabled = false; // 启用 Yes 按钮
-            noButton.disabled = false; // 启用 No 按钮
+            playButton.disabled = true;
+            audioStartTime = new Date().getTime();
+            yesButton.disabled = false;
+            noButton.disabled = false;
         };
 
         audioPlayer.onended = function() {
-            
-           
-
-            // 停止音频播放并清除音频源
             audioPlayer.pause();
             audioPlayer.src = '';
             audioPlayer.load();
         };
 
-
         let wordList = Array.from({ length: 146 }, (_, i) => `Tword_${String(i + 1).padStart(3, '0')}`);
-        shuffleArray(wordList); // 洗牌单词列表
+        shuffleArray(wordList);
 
-        // 洗牌数组的函数
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -246,21 +237,19 @@
             document.getElementById('progress').style.width = `${progress}%`;
         };
 
-        
         function playNextWord() {
-            // Stop audio playback
             audioPlayer.pause();
             audioPlayer.currentTime = 0;
 
             if (currentQuestionIndex < wordList.length) {
                 const word = wordList[currentQuestionIndex];
                 audioPlayer.src = `test2word/${word}.wav`;
-                audioPlayer.load(); // Ensure the audio file is reloaded
+                audioPlayer.load();
 
                 audioPlayer.oncanplaythrough = function() {
-                    playButton.disabled = false; // Enable the play button when the audio is loaded
-                    audioStartTime = new Date().getTime(); // Update the start time right before the audio starts playing
-                    audioPlayer.oncanplaythrough = null; // Remove the event listener to avoid triggering it multiple times
+                    playButton.disabled = false;
+                    audioStartTime = new Date().getTime();
+                    audioPlayer.oncanplaythrough = null;
                 };
                 updateProgressBar();
             }
@@ -268,10 +257,9 @@
 
         function recordAnswer(answer) {
             const answerEndTime = new Date().getTime();
-            const answerDuration = (answerEndTime - audioStartTime) / 1000; // 计算反应时间
+            const answerDuration = (answerEndTime - audioStartTime) / 1000;
             answerDurations.push({ answer, duration: answerDuration });
 
-            // 禁用按钮
             playButton.disabled = false;
 
             if (currentQuestionIndex === wordList.length - 1) {
@@ -283,14 +271,11 @@
             }
         };
 
-
-        
         function showResults() {
             localStorage.setItem('answerDurations', JSON.stringify(answerDurations));
             localStorage.setItem('wordList', JSON.stringify(wordList));
             window.location.href = 'result1.html';
         }
-
 
         window.onblur = function() {
             document.getElementById('test-container').style.backgroundColor = 'lightgrey';
@@ -312,14 +297,27 @@
             document.body.style.backgroundColor = 'white';
         };
 
-
-
+        function isMobileDevice() {
+            return /Mobi|Android|iPhone|iPad|iPod/.test(navigator.userAgent);
+        }
 
         window.onload = function () {
-            shuffleArray(wordList); // 洗牌单词列表
+            const chosenLanguage = localStorage.getItem('chosenLanguage');
+
+            if (isMobileDevice()) {
+                let message = '请使用电脑访问此页面。';
+                if (chosenLanguage === 'korean') {
+                    message = '컴퓨터를 사용하여 이 페이지에 액세스하십시오.';
+                } else if (chosenLanguage === 'english') {
+                    message = 'Please use a computer to access this page.';
+                }
+                document.body.innerHTML = `<h2>${message}</h2>`;
+                return;
+            }
+
+            shuffleArray(wordList);
             playNextWord();
 
-            const chosenLanguage = localStorage.getItem('chosenLanguage');
             if (chosenLanguage === 'korean') {
                 document.getElementById('pagetitle').innerText = '단어 인식 테스트 1';
                 document.getElementById('questionText').innerText = " 이 단어가 영어에 실제로 존재하는 단어인 것으로 생각하십니까?";
@@ -331,4 +329,3 @@
     </script>
 </body>
 </html>
-
