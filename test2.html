@@ -316,21 +316,37 @@
             document.body.style.backgroundColor = 'white';
         };
 
-        
+
+        function isMobileDevice() {
+            return /Mobi|Android|iPhone|iPad|iPod/.test(navigator.userAgent);
+        }
+
+
 
         window.onload = function () {
-            shuffleArray(wordList); // 洗牌单词列表
-            playNextWord();
+        const chosenLanguage = localStorage.getItem('chosenLanguage');
 
-            const chosenLanguage = localStorage.getItem('chosenLanguage');
+        if (isMobileDevice()) {
+            let message = '请使用电脑访问此页面。';
             if (chosenLanguage === 'korean') {
-                document.getElementById('pagetitle').innerText = '단어 인식 테스트 2';
-                document.getElementById('questionText').innerText = " 이 단어가 영어에 실제로 존재하는 단어인 것으로 생각하십니까?";
-            } else if (chosenLanguage === 'chinese') {
-                document.getElementById('pagetitle').innerText = '词汇识别测试 2';
-                document.getElementById('questionText').innerText = "你认为这个单词是英语中真实存在的单词吗?";
+                message = '컴퓨터를 사용하여 이 페이지에 액세스하십시오.';
+            } else if (chosenLanguage === 'english') {
+                message = 'Please use a computer to access this page.';
             }
-        };
+            document.body.innerHTML = `<h2>${message}</h2>`;
+            return;
+        }
+        shuffleArray(wordList); // 洗牌单词列表
+        playNextWord();
+
+        if (chosenLanguage === 'korean') {
+            document.getElementById('pagetitle').innerText = '단어 인식 테스트 2';
+            document.getElementById('questionText').innerText = " 이 단어가 영어에 실제로 존재하는 단어인 것으로 생각하십니까?";
+        } else if (chosenLanguage === 'chinese') {
+            document.getElementById('pagetitle').innerText = '词汇识别测试 2';
+            document.getElementById('questionText').innerText = "你认为这个单词是英语中真实存在的单词吗?";
+        }
+    };
     </script>
 </body>
 </html>
